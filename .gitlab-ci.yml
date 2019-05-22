@@ -20,6 +20,7 @@ before_script:
 stages:
   - lint
   - test
+  - documentation
   - analysis
   - upload
 
@@ -113,6 +114,17 @@ test:php73:typo3_9:
     DOCKER_TAG: 7.3-alpine
     TYPO3_VERSION: ^9.5
     COVERAGE: 0
+
+documentation:
+  stage: documentation
+  image: t3docs/render-documentation:latest
+  script:
+    - makehtml
+  artifacts:
+    paths:
+      - Documentation-GENERATED-temp
+    expire_in: 1 day
+    when: always
 
 sonarqube:
   stage: analysis
